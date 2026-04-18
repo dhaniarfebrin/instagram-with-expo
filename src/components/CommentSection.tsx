@@ -1,5 +1,13 @@
 import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, FlatList, Image, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  FlatList,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Comment, User } from '../types';
 import { feedApi } from '../api';
@@ -45,8 +53,8 @@ export default function CommentSection({ postId, user }: CommentSectionProps) {
                 isLiked: !c.isLiked,
                 likes: c.isLiked ? c.likes - 1 : c.likes + 1,
               }
-            : c
-        )
+            : c,
+        ),
       );
     } catch (error) {
       console.error('Failed to like comment:', error);
@@ -63,31 +71,49 @@ export default function CommentSection({ postId, user }: CommentSectionProps) {
     return `${Math.floor(diff / (1000 * 60))}m`;
   };
 
-  const renderComment = ({ item }: { item: Comment }) => (
-    <View style={styles.commentContainer}>
-      <Image source={{ uri: item.user.avatar }} style={styles.avatar} />
-      <View style={styles.commentContent}>
-        <View style={styles.commentBubble}>
-          <Text style={styles.commentUsername}>{item.user.username}</Text>
-          <Text style={styles.commentText}>{item.text}</Text>
-        </View>
-        <View style={styles.commentActions}>
-          <Pressable onPress={() => handleLikeComment(item.id)}>
-            <Feather
-              name="heart"
-              size={14}
-              color={item.isLiked ? '#ed4956' : '#8e8e8e'}
-              style={item.isLiked ? { transform: [{ scale: 1.1 }] } : undefined}
-            />
-          </Pressable>
-          <Text style={[styles.likesCount, item.isLiked && styles.likedCount]}>
-            {item.likes > 0 ? item.likes : ''}
-          </Text>
-          <Text style={styles.timeAgo}>{formatTime(item.createdAt)}</Text>
+  const renderComment = ({ item }: { item: Comment }) => {
+    const isReply = !!item.parentId;
+
+    return (
+      <View style={[styles.commentContainer, isReply && styles.replyContainer]}>
+        <Image
+          source={{ uri: item.user.avatar }}
+          style={[styles.avatar, isReply && styles.replyAvatar]}
+        />
+        <View style={styles.commentContent}>
+          <View style={styles.commentHeader}>
+            <Text style={styles.commentUsername}>{item.user.username}</Text>
+            <View style={styles.chatBubble}>
+              <Text style={styles.commentText}>{item.text}</Text>
+            </View>
+          </View>
+          <View style={styles.commentActions}>
+            <Text style={styles.timeAgo}>{formatTime(item.createdAt)}</Text>
+            {item.likes > 0 && (
+              <Text
+                style={[styles.likesCount, item.isLiked && styles.likedCount]}
+              >
+                {item.likes} likes
+              </Text>
+            )}
+            <Pressable
+              onPress={() => handleLikeComment(item.id)}
+              style={styles.likeButton}
+            >
+              <Feather
+                name="heart"
+                size={14}
+                color={item.isLiked ? '#ed4956' : '#8e8e8e'}
+                style={
+                  item.isLiked ? { transform: [{ scale: 1.1 }] } : undefined
+                }
+              />
+            </Pressable>
+          </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  };
 
   if (loading) {
     return (
@@ -131,50 +157,68 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 12,
   },
-  avatar: {
+  replyContainer: {
+    marginLeft: 20,
+    marginBottom: 10,
+  },
+  replyAvatar: {
     width: 28,
     height: 28,
     borderRadius: 14,
+  },
+  avatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
   },
   commentContent: {
     flex: 1,
     marginLeft: 10,
   },
-  commentBubble: {
-    backgroundColor: '#f0f0f0',
-    borderRadius: 18,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
+  commentHeader: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
   },
   commentUsername: {
     fontWeight: '600',
-    fontSize: 13,
+    fontSize: 14,
     color: '#262626',
-    marginRight: 6,
+    lineHeight: 20,
+  },
+  chatBubble: {
+    backgroundColor: '#f0f0f0',
+    borderRadius: 18,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    marginTop: 4,
   },
   commentText: {
-    fontSize: 13,
+    fontSize: 14,
     color: '#262626',
-    flex: 1,
+    lineHeight: 18,
   },
   commentActions: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 4,
-    marginLeft: 4,
+    marginTop: 6,
+    marginLeft: 8,
+  },
+  likeButton: {
+    padding: 4,
   },
   likesCount: {
     fontSize: 12,
     color: '#8e8e8e',
-    marginHorizontal: 8,
+    marginLeft: 12,
+    fontWeight: '500',
   },
   likedCount: {
     color: '#ed4956',
+    fontWeight: '600',
   },
   timeAgo: {
     fontSize: 12,
     color: '#8e8e8e',
-    marginLeft: 8,
   },
   noComments: {
     textAlign: 'center',

@@ -1,6 +1,7 @@
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Stack } from 'expo-router';
+import { View } from 'react-native';
 import FloatingTabBar from '../src/components/FloatingTabBar';
 
 export default function RootLayout() {

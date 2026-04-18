@@ -24,5 +24,6 @@ export interface Comment {
   likes: number;
   createdAt: string;
   isLiked: boolean;
+  parentId?: string; // For identifying replies
   replies?: Comment[];
 }

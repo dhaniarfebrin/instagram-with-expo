@@ -1,13 +1,13 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Header from '../components/Header';
 
 export default function ReelsScreen() {
-  const insets = useSafeAreaInsets();
-  
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
-      <Text style={styles.title}>Reels</Text>
-      <Text style={styles.subtitle}>Short videos coming soon</Text>
+    <View style={styles.container}>
+      <Header title="Reels" />
+      <View style={styles.content}>
+        <Text style={styles.subtitle}>Short videos coming soon</Text>
+      </View>
     </View>
   );
 }
@@ -16,13 +16,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
+  },
+  content: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#fff',
   },
   subtitle: {
     fontSize: 16,

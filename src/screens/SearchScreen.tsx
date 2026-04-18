@@ -1,13 +1,13 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Header from '../components/Header';
 
 export default function SearchScreen() {
-  const insets = useSafeAreaInsets();
-  
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
-      <Text style={styles.title}>Search</Text>
-      <Text style={styles.subtitle}>Discover content</Text>
+    <View style={styles.container}>
+      <Header showSearchBar />
+      <View style={styles.content}>
+        <Text style={styles.subtitle}>Discover content</Text>
+      </View>
     </View>
   );
 }
@@ -16,13 +16,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  content: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#262626',
   },
   subtitle: {
     fontSize: 16,

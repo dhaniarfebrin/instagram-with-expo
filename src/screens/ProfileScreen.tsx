@@ -1,16 +1,16 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { currentUser } from '../data/mockData';
+import Header from '../components/Header';
 
 export default function ProfileScreen() {
-  const insets = useSafeAreaInsets();
-  
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
-      <Text style={styles.title}>Profile</Text>
-      <Image source={{ uri: currentUser.avatar }} style={styles.avatar} />
-      <Text style={styles.username}>{currentUser.displayName}</Text>
-      <Text style={styles.handle}>@{currentUser.username}</Text>
+    <View style={styles.container}>
+      <Header showProfilePic username={currentUser.username} />
+      <View style={styles.content}>
+        <Image source={{ uri: currentUser.avatar }} style={styles.avatar} />
+        <Text style={styles.username}>{currentUser.displayName}</Text>
+        <Text style={styles.handle}>@{currentUser.username}</Text>
+      </View>
     </View>
   );
 }
@@ -19,13 +19,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  content: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#262626',
   },
   avatar: {
     width: 100,

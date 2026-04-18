@@ -50,6 +50,15 @@ export const mockPosts: Post[] = [
         isLiked: false,
       },
       {
+        id: 'c1r1',
+        user: mockUsers[2],
+        text: 'Right?! I want to go there too!',
+        likes: 45,
+        createdAt: '2024-01-15T11:15:00Z',
+        isLiked: false,
+        parentId: 'c1',
+      },
+      {
         id: 'c2',
         user: mockUsers[2],
         text: 'Where is this? I need to visit!',

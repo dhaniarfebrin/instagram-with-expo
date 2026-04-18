@@ -35,7 +35,7 @@ export default function FloatingTabBar() {
 
   return (
     <View
-      style={[styles.container, { paddingBottom: Math.min(insets.bottom, 20) }]}
+      style={[styles.container, { paddingBottom: insets.bottom > 0 ? 8 : 20 }]}
     >
       <View style={styles.tabsContainer}>
         {tabs.map((tab) => {
@@ -65,10 +65,11 @@ export default function FloatingTabBar() {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: Platform.OS === 'ios' ? 20 : 20,
-    left: 0,
-    right: 0,
+    bottom: Platform.OS === 'ios' ? 16 : 20,
+    left: 20,
+    right: 20,
     alignItems: 'center',
+    zIndex: 999,
   },
   tabsContainer: {
     flexDirection: 'row',
@@ -76,6 +77,8 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     paddingHorizontal: 8,
     paddingVertical: 10,
+    width: '100%',
+    justifyContent: 'space-around',
     ...Platform.select({
       ios: {
         shadowColor: '#000',

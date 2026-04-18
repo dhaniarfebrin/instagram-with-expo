@@ -95,7 +95,9 @@ export default function PostCard({ post }: PostCardProps) {
 
       <View style={styles.caption}>
         <Text style={styles.captionUsername}>{post.user.username}</Text>
-        <Text style={styles.captionText}>{post.caption}</Text>
+        <Text style={styles.captionText}>
+          {post.caption}
+        </Text>
       </View>
 
       {post.comments.length > 0 && (
@@ -174,19 +176,27 @@ const styles = StyleSheet.create({
     color: '#262626',
   },
   caption: {
+    flexDirection: 'column',
     paddingHorizontal: 12,
+    paddingRight: 12,
     marginBottom: 8,
   },
   captionUsername: {
     fontWeight: '600',
     fontSize: 14,
     color: '#262626',
-    marginRight: 6,
+    lineHeight: 20,
+    marginBottom: 2,
   },
   captionText: {
     fontSize: 14,
     color: '#262626',
-    flex: 1,
+    lineHeight: 20,
+  },
+  moreText: {
+    fontSize: 14,
+    color: '#8e8e8e',
+    fontWeight: '500',
   },
   viewComments: {
     paddingHorizontal: 12,

@@ -88,7 +88,7 @@ export default function CommentForm({ postId, user, onSuccess }: CommentFormProp
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     paddingVertical: 8,
   },
   avatar: {
@@ -106,10 +106,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
     borderRadius: 18,
     paddingHorizontal: 14,
-    paddingVertical: 8,
+    paddingTop: 8,
+    paddingBottom: 8,
     fontSize: 14,
     color: '#262626',
     maxHeight: 80,
+    textAlignVertical: 'top',
   },
   errorText: {
     color: '#ed4956',

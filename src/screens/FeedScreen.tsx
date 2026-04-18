@@ -1,15 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
-import { View, FlatList, StyleSheet, RefreshControl, Text, ActivityIndicator } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { View, FlatList, StyleSheet, RefreshControl, ActivityIndicator } from 'react-native';
 import { Post } from '../types';
 import { feedApi } from '../api';
 import PostCard from '../components/PostCard';
+import Header from '../components/Header';
 
 export default function FeedScreen() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const insets = useSafeAreaInsets();
 
   const loadPosts = useCallback(async () => {
     try {
@@ -34,15 +33,10 @@ export default function FeedScreen() {
 
   const renderPost = ({ item }: { item: Post }) => <PostCard post={item} />;
 
-  const renderHeader = () => (
-    <View style={styles.header}>
-      <Text style={styles.headerTitle}>Instagram</Text>
-    </View>
-  );
-
   if (loading) {
     return (
-      <View style={[styles.loadingContainer, { paddingTop: insets.top }]}>
+      <View style={styles.loadingContainer}>
+        <Header showLogo showRightIcons />
         <ActivityIndicator size="large" color="#3897f0" />
       </View>
     );
@@ -50,11 +44,11 @@ export default function FeedScreen() {
 
   return (
     <View style={styles.container}>
+      <Header showLogo showRightIcons />
       <FlatList
         data={posts}
         renderItem={renderPost}
         keyExtractor={(item) => item.id}
-        ListHeaderComponent={renderHeader}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -79,17 +73,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
-  },
-  header: {
-    paddingHorizontal: 12,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#efefef',
-  },
-  headerTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#262626',
   },
   listContent: {
     paddingBottom: 100,
