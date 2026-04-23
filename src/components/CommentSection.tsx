@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { Comment, User } from '../types';
 import { feedApi } from '../api';
 import CommentForm from './CommentForm';
@@ -19,6 +20,7 @@ interface CommentSectionProps {
 }
 
 export default function CommentSection({ postId, user }: CommentSectionProps) {
+  const router = useRouter();
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -71,6 +73,10 @@ export default function CommentSection({ postId, user }: CommentSectionProps) {
     return `${Math.floor(diff / (1000 * 60))}m`;
   };
 
+  const viewUserProfile = (userId: string) => {
+    router.push(`/profile?userId=${userId}`);
+  };
+
   const renderComment = ({ item }: { item: Comment }) => {
     const isReply = !!item.parentId;
 
@@ -82,7 +88,9 @@ export default function CommentSection({ postId, user }: CommentSectionProps) {
         />
         <View style={styles.commentContent}>
           <View style={styles.commentHeader}>
-            <Text style={styles.commentUsername}>{item.user.username}</Text>
+            <Pressable onPress={() => viewUserProfile(item.user.id)}>
+              <Text style={styles.commentUsername}>{item.user.username}</Text>
+            </Pressable>
             <View style={styles.chatBubble}>
               <Text style={styles.commentText}>{item.text}</Text>
             </View>

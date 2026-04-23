@@ -14,6 +14,7 @@ export default function RootLayout() {
           <Stack.Screen name="reels" />
           <Stack.Screen name="profile" />
           <Stack.Screen name="comments/[id]" />
+          <Stack.Screen name="posts/[id]" />
         </Stack>
         <FloatingTabBar />
       </SafeAreaProvider>

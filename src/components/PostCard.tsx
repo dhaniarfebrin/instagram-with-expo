@@ -29,6 +29,10 @@ export default function PostCard({ post }: PostCardProps) {
     router.push(`/comments/${post.id}`);
   };
 
+  const viewUserProfile = () => {
+    router.push(`/profile?userId=${post.user.id}`);
+  };
+
   const formatLikes = (count: number) => {
     if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
     if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
@@ -48,10 +52,14 @@ export default function PostCard({ post }: PostCardProps) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image source={{ uri: post.user.avatar }} style={styles.avatar} />
+        <Pressable onPress={viewUserProfile}>
+          <Image source={{ uri: post.user.avatar }} style={styles.avatar} />
+        </Pressable>
         <View style={styles.userInfo}>
           <View style={styles.usernameRow}>
-            <Text style={styles.username}>{post.user.username}</Text>
+            <Pressable onPress={viewUserProfile}>
+              <Text style={styles.username}>{post.user.username}</Text>
+            </Pressable>
             {post.user.isVerified && (
               <Feather name="check-circle" size={14} color="#3897f0" style={styles.verified} />
             )}

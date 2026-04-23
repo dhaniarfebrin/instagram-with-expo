@@ -16,7 +16,8 @@ export default function FloatingTabBar() {
   const insets = useSafeAreaInsets();
 
   const isCommentsRoute = segments[0] === 'comments';
-  if (isCommentsRoute) return null;
+  const isPostDetail = segments[0] === 'posts';
+  if (isCommentsRoute || isPostDetail) return null;
 
   const handlePress = (route: string) => {
     console.log(route);

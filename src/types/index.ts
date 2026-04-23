@@ -6,6 +6,20 @@ export interface User {
   isVerified: boolean;
 }
 
+export interface StoryHighlight {
+  id: string;
+  coverImage: string;
+  title: string;
+}
+
+export interface UserProfile extends User {
+  bio?: string;
+  postsCount: number;
+  followersCount: number;
+  followingCount: number;
+  highlights: StoryHighlight[];
+}
+
 export interface Post {
   id: string;
   user: User;
